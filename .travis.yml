@@ -1,0 +1,15 @@
+language: objective-c
+
+osx_image: xcode10.1
+env:
+  matrix:
+    - TEST_SDK=iphonesimulator12.1 OS=12.1 NAME='iPhone XR'
+    - TEST_SDK=iphonesimulator12.1 OS=12.1 NAME='iPhone 7'
+
+script:
+  - set -o pipefail && xcodebuild test -enableCodeCoverage YES -project FBFirebaseChat.xcodeproj -scheme FBFirebaseChat -sdk $TEST_SDK -destination "platform=iOS Simulator,OS=$OS,name=$NAME" ONLY_ACTIVE_ARCH=YES
+
+after_success:
+  - slather
+  - bash <(curl -s https://codecov.io/bash) -f reports/cobertura.xml -X coveragepy -X gcov -X xcode -t {26785e52-2909-4255-8bcd-81452a68fe97}
+view raw
