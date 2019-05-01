@@ -11,8 +11,8 @@ import Foundation
 public class ReachabilityManager: NSObject {
     
     public static let sharedInstance = ReachabilityManager()
-    var reachability: Reachability?
-    public var internetStatus: Reachability.Connection = .none
+    public var reachability: Reachability?
+    var internetStatus: Reachability.Connection = .none
     public var isInternetAvaliable = false
     
     private override init() {

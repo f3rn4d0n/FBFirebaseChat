@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import Alamofire
-
 class Downloads: NSObject {
     
 //    var downloadDelegate: DownloadTaskDelegate { return delegate as! DownloadTaskDelegate }
@@ -35,17 +33,17 @@ class Downloads: NSObject {
 
     
     func downloadFile(imageURL:NSURL){
-        Alamofire.download(imageURL as! URLConvertible)
-            .downloadProgress { (progress) in
-                print("Video descarga en \(progress.fractionCompleted/0.01) %")
-                
+//        Alamofire.download(imageURL as! URLConvertible)
+//            .downloadProgress { (progress) in
+//                print("Video descarga en \(progress.fractionCompleted/0.01) %")
+        
 //                if(progress.fractionCompleted > self.downloadProgressValue + 0.05){
 //                    self.downloadProgressValue = progress.fractionCompleted
 //                    self.chatTblView.reloadRows(at: [IndexPath(row: index!, section: 0)], with: .none)
 //                }
-            }
-            .responseData { (data) in
-                print("Completed!")
+//            }
+//            .responseData { (data) in
+//                print("Completed!")
 //                self.chatTblView.reloadData()
 //                self.dowloadingVideoIndex = -10
 //                self.downloadProgressValue = 0.0
@@ -61,6 +59,6 @@ class Downloads: NSObject {
 //                    MessageObject.sharedInstance.showMessage("Hubo un problema al descargar el video, favor de intentar mas tarde", title: "Error", accept: "Aceptar")
 //                }
 //
-        }
+//        }
     }
 }

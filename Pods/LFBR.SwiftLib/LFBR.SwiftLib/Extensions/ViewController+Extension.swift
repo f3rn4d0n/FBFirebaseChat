@@ -8,13 +8,13 @@
 
 import UIKit
 
-class ViewController_Extension: UIViewController {
+public class ViewController_Extension: UIViewController {
 
-    override func viewWillDisappear(_ animated: Bool) {
+    override public func viewWillDisappear(_ animated: Bool) {
         view.endEditing(true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         view.endEditing(true)
     }
 

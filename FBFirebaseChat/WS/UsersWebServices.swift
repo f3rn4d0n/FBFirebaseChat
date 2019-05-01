@@ -10,12 +10,11 @@ import UIKit
 import FirebaseDatabase
 import LFBR_SwiftLib
 
-class UsersWebServices: NSObject {
+public class UsersWebServices: NSObject {
     
-    var userRef: DatabaseReference!
     
     //MARK: Search user
-    func getUserByUID(_ userId:String, completion:@escaping (UserFirebase) -> Void){
+    public func getUserByUID(_ userId:String, completion:@escaping (UserFirebase) -> Void){
         if !ReachabilityManager.sharedInstance.isInternetAvaliable {
             ChatRoomServices().showInternetError()
             completion(UserFirebase())
@@ -39,12 +38,7 @@ class UsersWebServices: NSObject {
             user.typeProfile = Int(truncating: value?["tipo_de_usuario"] as? NSNumber ?? 0)
             user.validarUsuario = Int(truncating: value?["validarUsuario"] as? NSNumber ?? 0)
             user.pushNotificationKey = value?["pushNotificationKey"] as? String ?? ""
-            user.countryName = value?["countryName"] as? String ?? ""
-            user.countryExtension = value?["countryExtension"] as? String ?? ""
-            user.countryImage = value?["countryImage"] as? String ?? ""
-            user.customPhoto = value?["customPhoto"] as? String ?? ""
             user.webPushNotificationKey = value?["webPushNotificationKey"] as? String ?? ""
-            user.alvReason = value?["alvReason"] as? String ?? ""
             completion(user)
         }) { (error) in
             print(error.localizedDescription)
@@ -53,14 +47,13 @@ class UsersWebServices: NSObject {
     }
     
     //MARK: Close session for only one account
-    func userSessionChangedFor(userID: String, completionSession:@escaping(Bool) ->Void, completionState:@escaping(NSNumber) ->Void){
+    public func userSessionChangedFor(userID: String, completionSession:@escaping(Bool) ->Void, completionState:@escaping(NSNumber) ->Void){
         if !ReachabilityManager.sharedInstance.isInternetAvaliable {
             ChatRoomServices().showInternetError()
             return
         }
         
-        
-        userRef = Database.database().reference().child("Users").child(userID)
+        var userRef: DatabaseReference! = Database.database().reference().child("Users").child(userID)
         userRef.observe(.childChanged, with: { (snapshot) in
             if snapshot.key == "active"{
                 completionSession(snapshot.value as? Bool ?? false)

@@ -2,9 +2,9 @@
 
 [![Platform](https://img.shields.io/cocoapods/p/librws.svg?style=flat)](https://cocoapods.org/pods/LFBR.SwiftLib)
 [![Version](https://img.shields.io/cocoapods/v/librws.svg?style=flat)](https://cocoapods.org/pods/LFBR.SwiftLib)
-[![License](https://img.shields.io/cocoapods/l/librws.svg?style=flat)](http://cocoapods.org/pods/librws)
+[![License](https://img.shields.io/cocoapods/l/librws.svg?style=flat)](http://cocoapods.org/pods/LFBR.SwiftLib)
 [![Build Status](https://travis-ci.org/OlehKulykov/librws.svg?branch=master)](https://travis-ci.org/f3rn4d0n/LFBR-SwiftLib)
-[![Build status](https://codecov.io/gh/f3rn4d0n/LFBR-SwiftLib/branch/master/graph/badge.svg)](https://codecov.io/gh/f3rn4d0n/LFBR-SwiftLib)
+[![Build Status](https://codecov.io/gh/f3rn4d0n/LFBR-SwiftLib/branch/master/graph/badge.svg)](https://codecov.io/gh/f3rn4d0n/LFBR-SwiftLib)
 
 
 ### Features 🧞‍♂️
@@ -19,6 +19,8 @@
 * No additional dependencies 👻
 * Single integration with public methods
 * Public extensions
+* UIView, UITableView and UITableViewCell extensions to create interfaces programatically easier 
+* Generics components to create UITableView and UITableViewCell most easier
 
 ### Installation with CocoaPods
 #### Podfile
@@ -293,7 +295,9 @@ func getdBoldedText(boldPartsOfString: Array<NSString>, font: UIFont!, boldFont:
 ```
 
 
-
+#### Special Thanks 
+---------
+ Brian Voong from [Lets Build That App](https://www.letsbuildthatapp.com) who is the creator of UIView+anchors.swift and GenericTableViewController.swift
 
 
 ### License

@@ -13,6 +13,7 @@ var ChatsroomsReload = "ChatroomReload"
 var androidPackageVersion = 0
 var iOSPackageVersion = 0
 
+
 final class GlobalValues: NSObject {
     static let sharedInstance = GlobalValues()
     var chatToContactID = ""
@@ -33,4 +34,25 @@ final class GlobalValues: NSObject {
     
     
     private override init() {super.init()}
+}
+
+struct WrappedBundleImage: _ExpressibleByImageLiteral {
+    var image: UIImage?
+    
+    init(imageLiteralResourceName name: String) {
+        image = UIImage(named: name, in: Bundle.main, compatibleWith: nil)
+        if image == nil{
+            print("Image not found \(name)")
+//            self.image = UIImage(named: name, in: Bundle.main, compatibleWith: nil)
+            
+            let bundle = Bundle.init(identifier: "com.gastandoTenis.FBFirebaseChat")
+            self.image = UIImage(named: name, in: bundle, compatibleWith: nil)
+        }
+    }
+}
+
+extension UIImage {
+    static func fromWrappedBundleImage(_ wrappedImage: WrappedBundleImage) -> UIImage? {
+        return wrappedImage.image
+    }
 }

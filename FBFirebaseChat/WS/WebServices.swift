@@ -1,8 +1,8 @@
 //
-//  AppConfirWebServices.swift
+//  WebServices.swift
 //  FBFirebaseChat
 //
-//  Created by Luis Fernando Bustos Ramírez on 3/25/19.
+//  Created by Luis Fernando Bustos Ramírez on 3/29/19.
 //  Copyright © 2019 Gastando Tenis. All rights reserved.
 //
 
@@ -10,9 +10,9 @@ import UIKit
 import FirebaseDatabase
 import LFBR_SwiftLib
 
-class AppConfirWebServices: NSObject {
+public class WebServices: NSObject {
     //MARK: Check App Version
-    func checkAppVersion(_ completion:@escaping (Int?) -> Void){
+    public func checkAppVersion(_ completion:@escaping (Int?) -> Void){
         if !ReachabilityManager.sharedInstance.isInternetAvaliable {
             ChatRoomServices().showInternetError()
             completion(0)
@@ -22,10 +22,10 @@ class AppConfirWebServices: NSObject {
             build = text
         }
         let ref = Database.database().reference()
-        ref.child("app_version").observeSingleEvent(of: .value, with: { (snapshot) in
+        ref.child("app_configuration").child("app_version").observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             iOSPackageVersion = Int(truncating: value?["iOS"] as? NSNumber ?? 0)
-            androidPackageVersion = Int(truncating: value?["android"] as? NSNumber ?? 0)
+            androidPackageVersion = Int(truncating: value?["Android"] as? NSNumber ?? 0)
             let myInt1 = Int(build)
             if iOSPackageVersion > myInt1!{
                 completion(-1)

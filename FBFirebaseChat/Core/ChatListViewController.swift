@@ -12,7 +12,9 @@ import LFBR_SwiftLib
 
 public class ChatListViewController: UIViewController, NVActivityIndicatorViewable {
 
-    @IBOutlet weak var chatTblView: UITableView!
+    @IBOutlet var chatTblView: UITableView!
+    
+    @IBOutlet  var mybutton: UIButton!
     private let refreshControl = UIRefreshControl()
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -20,7 +22,6 @@ public class ChatListViewController: UIViewController, NVActivityIndicatorViewab
     let chatWeb = ChatRoomServices()
     var chatWebBackup = NSMutableArray()
     var usersP2P = NSMutableDictionary()
-    var chatroomsSeen = NSMutableDictionary()
     var searching = false
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -28,7 +29,6 @@ public class ChatListViewController: UIViewController, NVActivityIndicatorViewab
     }
     override public func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-        checkChatroomsSeen()
         prepareChatInfo()
     }
     
@@ -38,12 +38,13 @@ public class ChatListViewController: UIViewController, NVActivityIndicatorViewab
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.navigationItem.title = FBChatConfiguration().chatlistTitle
         
-        let createChat = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_forum_white"), style: .done, target: self, action: #selector(createChatAction))
+        let createChat = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_phone"), style: .done, target: self, action: #selector(createChatAction))
         navigationItem.rightBarButtonItems = [createChat]
         
         let silentAllChats = UIBarButtonItem(image: #imageLiteral(resourceName: "baseline_volume_off"), style: .done, target: self, action: #selector(editListOfChatrooms))
         navigationItem.leftBarButtonItems = [silentAllChats]
         
+        mybutton.titleLabel?.text = "sadsdas"
         chatTblView.register(UINib(nibName: "FBChatTableViewCell", bundle: nil), forCellReuseIdentifier: "FBChatTableViewCell")
         chatTblView.delegate = self
         chatTblView.dataSource = self
@@ -51,7 +52,6 @@ public class ChatListViewController: UIViewController, NVActivityIndicatorViewab
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadChats), name: NSNotification.Name(rawValue: ChatsroomsReload), object: nil)
         
-        checkChatroomsSeen()
         checkChatroomUpdated()
         
         // Add Refresh Control to Table View
@@ -101,13 +101,6 @@ public class ChatListViewController: UIViewController, NVActivityIndicatorViewab
                     return
                 }
             }
-        }
-    }
-    
-    /// Check list of all chatrooms viewed
-    func checkChatroomsSeen(){
-        chatWeb.getListChatroomsSeen { (chatrooms) in
-            self.chatroomsSeen = chatrooms
         }
     }
     
@@ -201,10 +194,6 @@ public class ChatListViewController: UIViewController, NVActivityIndicatorViewab
         let vc = ChatRoomViewController()
         vc.chatID = chatID
         self.navigationController?.pushViewController(vc, animated: true)
-        
-        chatWeb.addChatroomSeen(chatroomID: chatID)
-        chatroomsSeen.setValue(Date().getTimeStamp(), forKey: chatID)
-        self.chatTblView.reloadData()
     }
 }
 
@@ -223,17 +212,17 @@ extension ChatListViewController: UITableViewDelegate, UITableViewDataSource{
         cell.backgroundColor = .clear
         let chatroom = chatroomsList[indexPath.row] as! Chatroom
         
-        cell.nameLbl.text = chatroom.title
-        cell.descriptionLbl.text = chatroom.lastMessage
-        cell.userImg.image = #imageLiteral(resourceName: "user")
+//        cell.nameLbl.text = chatroom.title
+//        cell.descriptionLbl.text = chatroom.lastMessage
+        
         
         if chatroom.key.contains(UserSelected.sharedInstance.getUser().key){
             if usersP2P.object(forKey:chatroom.key) != nil{
                 let contact =  usersP2P.object(forKey: chatroom.key) as? UserFirebase
-                cell.nameLbl.text = "\(contact?.countryImage ?? "") \(contact?.name ?? "")"
-                if contact?.customPhoto != ""{
-                    let url = URL(string: (contact?.customPhoto.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed))!)
-                    cell.userImg.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "logo-Descargando"))
+                //cell.nameLbl.text = "\(contact?.name ?? "")"
+                if contact?.photoUrl != ""{
+                    let url = URL(string: (contact?.photoUrl.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed))!)
+                    //cell.userImg.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "logo-Descargando"))
                 }
             }else{
                 var contactUI = chatroom.key.replacingOccurrences(of: UserSelected.sharedInstance.getUser().key, with: "")
@@ -241,10 +230,10 @@ extension ChatListViewController: UITableViewDelegate, UITableViewDataSource{
                     contactUI = UserSelected.sharedInstance.getUser().key
                 }
                 UsersWebServices().getUserByUID(contactUI, completion: { (contact) in
-                    cell.nameLbl.text = "\(contact.countryImage) \(contact.name)"
-                    if contact.customPhoto != ""{
-                        let url = URL(string: (contact.customPhoto.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed))!)
-                        cell.userImg.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "logo-Descargando"))
+                    //cell.nameLbl.text = "\(contact.name)"
+                    if contact.photoUrl != ""{
+                        let url = URL(string: (contact.photoUrl.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed))!)
+                        //cell.userImg.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "logo-Descargando"))
                     }
                     self.usersP2P.setValue(contact, forKey: chatroom.key)
                 })
@@ -264,13 +253,13 @@ extension ChatListViewController: UITableViewDelegate, UITableViewDataSource{
                     if (usersP2P.object(forKey: contactUI) != nil){
                         let owner =  usersP2P.object(forKey: chatroom.owner) as? UserFirebase
                         let contact =  usersP2P.object(forKey: contactUI) as? UserFirebase
-                        cell.nameLbl.text = "\(owner?.countryImage ?? "") \(owner?.name ?? "") y \(contact?.countryImage ?? "") \(contact?.name ?? "")"
+                        //cell.nameLbl.text = "\(owner?.name ?? "") y \(contact?.name ?? "")"
                     }else{
                         UsersWebServices().getUserByUID(contactUI, completion: { (contact2) in
                             self.usersP2P.setValue(contact2, forKey: contactUI)
                             let owner =  self.usersP2P.object(forKey: chatroom.owner) as? UserFirebase
                             let contact =  self.usersP2P.object(forKey: contactUI) as? UserFirebase
-                            cell.nameLbl.text = "\(owner?.countryImage ?? "") \(owner?.name ?? "") y \(contact?.countryImage ?? "") \(contact?.name ?? "")"
+                            //cell.nameLbl.text = "\(owner?.name ?? "") y \(contact?.name ?? "")"
                         })
                     }
                 }else{
@@ -280,27 +269,18 @@ extension ChatListViewController: UITableViewDelegate, UITableViewDataSource{
                         if (self.usersP2P.object(forKey: contactUI) != nil){
                             let owner =  self.usersP2P.object(forKey: chatroom.owner) as? UserFirebase
                             let contact =  self.usersP2P.object(forKey: contactUI) as? UserFirebase
-                            cell.nameLbl.text = "\(owner?.countryImage ?? "") \(owner?.name ?? "") y \(contact?.countryImage ?? "") \(contact?.name ?? "")"
+                            //cell.nameLbl.text = "\(owner?.name ?? "") y \(contact?.name ?? "")"
                         }else{
                             UsersWebServices().getUserByUID(contactUI, completion: { (contact2) in
                                 self.usersP2P.setValue(contact2, forKey: contactUI)
                                 let owner =  self.usersP2P.object(forKey: chatroom.owner) as? UserFirebase
                                 let contact =  self.usersP2P.object(forKey: contactUI) as? UserFirebase
-                                cell.nameLbl.text = "\(owner?.countryImage ?? "") \(owner?.name ?? "") y \(contact?.countryImage ?? "") \(contact?.name ?? "")"
+                                //cell.nameLbl.text = "\(owner?.name ?? "") y \(contact?.name ?? "")"
                             })
                         }
                     })
                 }
             }
-        }
-        cell.userImg.layer.cornerRadius = cell.userImg.frame.width/2
-        cell.userImg.layer.masksToBounds = true
-        
-        let time = chatroomsSeen.object(forKey: chatroom.key) as? NSNumber ?? 0
-        if time.intValue > chatroom.timeStamp{
-            cell.redPoint.isHidden = true
-        }else{
-            cell.redPoint.isHidden = false
         }
         return cell
     }

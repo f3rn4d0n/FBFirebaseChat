@@ -8,34 +8,21 @@
 
 import UIKit
 
-struct UserFirebase{
-    var key = ""
-    var type = ""
-    var display_title = ""
-    var name = ""
-    var dir = ""
-    var mail = ""
-    var phone = ""
-    var typeProfile = 0
-    var ife1 = ""
-    var ife2 = ""
-    var comprobanteImg = ""
-    var fachada = ""
-    var latitude = 0.0
-    var longitude = 0.0
-    var validarUsuario = 0
-    var pushNotificationKey = ""
-    var photoUrl = ""
-    var lastLogin = 0
-    var areaTrabajo = ""
-    var active = false
-    var countryName = ""
-    var countryImage = ""
-    var countryExtension = ""
-    var haveReposCoti = false
-    var customPhoto = ""
-    var webPushNotificationKey = ""
-    var alvReason = ""
+public struct UserFirebase{
+    public var key = ""
+    public var type = ""
+    public var display_title = ""
+    public var name = ""
+    public var dir = ""
+    public var mail = ""
+    public var phone = ""
+    public var typeProfile = 0
+    public var validarUsuario = 0
+    public var pushNotificationKey = ""
+    public var photoUrl = ""
+    public var lastLogin = 0
+    public var active = false
+    public var webPushNotificationKey = ""
 }
 
 struct Category{
@@ -43,16 +30,26 @@ struct Category{
     var subcategory = NSArray()
 }
 
-struct Chatroom{
+public struct Chatroom{
     var lastMessage = ""
     var photo = ""
     var timeStamp = 0
     var title = ""
     var owner = ""
     var key = ""
-    var sharedEnable = false
-    var cotizacionID = ""
+    var newContent = false
+    var dateSeen = 0
 }
+
+let chatrooms = [
+    Chatroom(lastMessage: "Prueba 1", photo: "No hay", timeStamp: 123456, title: "Yo puedo", owner: "Yo mero", key: "dfkjsfkhsvhlkcnkv", newContent: false, dateSeen:0),
+    Chatroom(lastMessage: "Prueba 1", photo: "No hay", timeStamp: 123456, title: "Yo puedo", owner: "Yo mero", key: "dfkjsfkhsvhlkcnkv", newContent: false, dateSeen:0),
+    Chatroom(lastMessage: "Prueba 1", photo: "No hay", timeStamp: 123456, title: "Yo puedo", owner: "Yo mero", key: "dfkjsfkhsvhlkcnkv", newContent: false, dateSeen:0),
+    Chatroom(lastMessage: "Prueba 1", photo: "No hay", timeStamp: 123456, title: "Yo puedo", owner: "Yo mero", key: "dfkjsfkhsvhlkcnkv", newContent: false, dateSeen:0),
+    Chatroom(lastMessage: "Prueba 1", photo: "No hay", timeStamp: 123456, title: "Yo puedo", owner: "Yo mero", key: "dfkjsfkhsvhlkcnkv", newContent: false, dateSeen:0),
+    Chatroom(lastMessage: "Prueba 1", photo: "No hay", timeStamp: 123456, title: "Yo puedo", owner: "Yo mero", key: "dfkjsfkhsvhlkcnkv", newContent: false, dateSeen:0)
+
+]
 
 struct Message{
     var message = ""

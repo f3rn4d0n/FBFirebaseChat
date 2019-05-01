@@ -15,7 +15,6 @@ import MobileCoreServices
 import AudioToolbox
 import AVKit
 import Photos
-import Alamofire
 import LFBR_SwiftLib
 
 class ChatRoomViewController: UIViewController,NVActivityIndicatorViewable {
@@ -264,7 +263,7 @@ class ChatRoomViewController: UIViewController,NVActivityIndicatorViewable {
                 self.scrollToBottom()
             }
         })
-        if self.currentChatroom.sharedEnable && self.currentChatroom.owner == UserSelected.sharedInstance.getUser().key{
+        if self.currentChatroom.owner == UserSelected.sharedInstance.getUser().key{
             self.getSharedCode()
         }
     }
@@ -1484,41 +1483,41 @@ extension ChatRoomViewController{
         let index = (messageList as! [Message]).index(where: {$0.key == fromMessage.key})
         
         var videoFileURL_ : URL!
-        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
-            let fileMgr = FileManager.default
-            let dirPaths = fileMgr.urls(for: .documentDirectory, in: .userDomainMask)
-            let videoFileURL = dirPaths[0].appendingPathComponent("name\(fromMessage.key)\(fromMessage.timeStamp).mp4")
-            videoFileURL_ = videoFileURL
-            return (videoFileURL, [.removePreviousFile])
-        }
-        
-        Alamofire.download(fromMessage.imageURL, to:destination)
-            .downloadProgress { (progress) in
-                print("Video descarga en \(progress.fractionCompleted/0.01) %")
-                
-                if(progress.fractionCompleted > self.downloadProgressValue + 0.05){
-                    self.downloadProgressValue = progress.fractionCompleted
-                    self.chatTblView.reloadRows(at: [IndexPath(row: index!, section: 0)], with: .none)
-                }
-            }
-            .responseData { (data) in
-                print("Completed!")
-                self.chatTblView.reloadData()
-                self.dowloadingVideoIndex = -10
-                self.downloadProgressValue = 0.0
-                //Play local audio File
-                if videoFileURL_ != nil{
-                    self.videoPlayer = AVPlayer(url: videoFileURL_ )
-                    let playerController = AVPlayerViewController()
-                    playerController.player = self.videoPlayer
-                    self.present(playerController, animated: true) {
-                        self.videoPlayer.play()
-                    }
-                }else{
-                    MessageObject.sharedInstance.showMessage("Hubo un problema al descargar el video, favor de intentar mas tarde", title: "Error", okMessage: "Aceptar")
-                }
-                
-        }
+//        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+//            let fileMgr = FileManager.default
+//            let dirPaths = fileMgr.urls(for: .documentDirectory, in: .userDomainMask)
+//            let videoFileURL = dirPaths[0].appendingPathComponent("name\(fromMessage.key)\(fromMessage.timeStamp).mp4")
+//            videoFileURL_ = videoFileURL
+//            return (videoFileURL, [.removePreviousFile])
+//        }
+//        
+//        Alamofire.download(fromMessage.imageURL, to:destination)
+//            .downloadProgress { (progress) in
+//                print("Video descarga en \(progress.fractionCompleted/0.01) %")
+//                
+//                if(progress.fractionCompleted > self.downloadProgressValue + 0.05){
+//                    self.downloadProgressValue = progress.fractionCompleted
+//                    self.chatTblView.reloadRows(at: [IndexPath(row: index!, section: 0)], with: .none)
+//                }
+//            }
+//            .responseData { (data) in
+//                print("Completed!")
+//                self.chatTblView.reloadData()
+//                self.dowloadingVideoIndex = -10
+//                self.downloadProgressValue = 0.0
+//                //Play local audio File
+//                if videoFileURL_ != nil{
+//                    self.videoPlayer = AVPlayer(url: videoFileURL_ )
+//                    let playerController = AVPlayerViewController()
+//                    playerController.player = self.videoPlayer
+//                    self.present(playerController, animated: true) {
+//                        self.videoPlayer.play()
+//                    }
+//                }else{
+//                    MessageObject.sharedInstance.showMessage("Hubo un problema al descargar el video, favor de intentar mas tarde", title: "Error", okMessage: "Aceptar")
+//                }
+//                
+//        }
         
     }
     
@@ -1699,7 +1698,7 @@ extension ChatRoomViewController : RecordViewDelegate, AVAudioPlayerDelegate{
     func load(url: URL, to localUrl: URL, completion: @escaping () -> ()) {
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
-        let request = try! URLRequest(url: url, method: .get)
+        let request = try! URLRequest(url: url)
         
         let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
             if let tempLocalUrl = tempLocalUrl, error == nil {

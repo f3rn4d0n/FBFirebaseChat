@@ -7,16 +7,97 @@
 //
 
 import UIKit
+import LFBR_SwiftLib
+import FBFirebaseChat
+import FirebaseAuth
+import NVActivityIndicatorView
+import KWDrawerController
+import FirebaseDatabase
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,NVActivityIndicatorViewable {
 
+    let appVersion: UILabel = {
+        let versionLbl = UILabel()
+        if let text = Bundle.main.infoDictionary?["CFBundleVersion"]  as? String {
+            versionLbl.text = "V. \(text)"
+        }
+        return versionLbl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        
+        view.backgroundColor = .white
+        view.addSubview(appVersion)
     }
-
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        checkAppVersion { (appVersion) in
+            switch (appVersion){
+            case .failure(let error):
+                MessageObject.sharedInstance.showMessage(error.localizedDescription, title: "Error", okMessage: "Accept")
+            case .success(let success):
+                print(success)
+                self.openApp()
+                //self.updateVersion()
+            }
+        }
+    }
+    
+    func updateVersion(){
+        let okAction = UIAlertAction(title: "Download", style: UIAlertAction.Style.default) {
+            (result : UIAlertAction) -> Void in
+            let urlStr = "itms://itunes.apple.com/us/app/..."
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(URL(string: urlStr)!, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(URL(string: urlStr)!)
+            }
+        }
+        MessageObject.sharedInstance.showMessage("To get a better experience, please download the newest version.", title: "Old version",  okAction: okAction)
+    }
+    
+    func openApp(){
+        let user = Auth.auth().currentUser;
+        if (user != nil){
+            self.sendToMainController()
+        }else{
+            sendToLogin()
+        }
+    }
+    
+    func sendToLogin(){
+        let loginView = LoginViewController()
+        self.navigationController?.pushViewController(loginView, animated: true)
+    }
+    
+    func sendToMainController(){
+        let drawerController = DrawerController()
+        let drawerVC = DrawerViewController()
+        let chatListVC = ChatRoomsListTableViewController()
+        let navigationC = UINavigationController()
+        navigationC.viewControllers = [chatListVC]
+        
+        drawerController.setViewController(navigationC, for: .none)
+        drawerController.setViewController(drawerVC, for: .left)
+        
+        if UIApplication.shared.windows.count > 1 {
+            UIApplication.shared.windows[0].rootViewController = drawerController
+            UIApplication.shared.windows[0].makeKeyAndVisible()
+        }else{
+            UIApplication.shared.keyWindow?.rootViewController = drawerController
+            UIApplication.shared.keyWindow?.makeKeyAndVisible()
+        }
+    }
+    
+    
+    fileprivate func checkAppVersion(completion:@escaping(Result<Int,Error>) -> Void){
+        Database.database().reference().child("app_configuration").child("app_version").observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let value = snapshot.value else { return }
+            print(value)
+//            let item = try JSONDecoder().decode(Int.self, from: value)
+//            completion(.success(item))
+        }) { (error) in
+            completion(.failure(error))
+        }
+    }
 }
-

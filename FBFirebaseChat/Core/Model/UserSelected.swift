@@ -28,27 +28,4 @@ class UserSelected: NSObject {
         self.user.lastLogin = date
     }
 
-    func setImageAreaTrabajo(_ image:String){
-        self.user.areaTrabajo = image
-    }
-    
-    func setImageIfeFront(_ image:String){
-        self.user.ife1 = image
-    }
-    
-    func setImageIfeBack(_ image:String){
-        self.user.ife2 = image
-    }
-    
-    func setImageComprobante(_ image:String){
-        self.user.comprobanteImg = image
-    }
-    
-    func setImageFachada(_ image:String){
-        self.user.fachada = image
-    }
-    
-    func setHaveReposCoti(_ repoActive:Bool){
-        self.user.haveReposCoti = repoActive
-    }
 }

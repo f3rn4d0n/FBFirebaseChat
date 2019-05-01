@@ -4,8 +4,14 @@ target 'FBFirebaseChat' do
   pod 'Firebase/Database'
   pod 'Firebase/DynamicLinks'
   pod 'NVActivityIndicatorView'
-  pod 'LFBR.SwiftLib' , '~> 0.1'
+  pod 'LFBR.SwiftLib'
   pod 'Kingfisher'
-  pod 'Alamofire'
-  pod 'SwiftyJSON'
+end
+target 'FBFirebaseChatExample' do
+  pod 'LFBR.SwiftLib'
+  pod 'Firebase/Database'
+  pod 'FirebaseAuth'
+  pod 'KWDrawerController', '~> 4.2'
+  pod 'KWDrawerController/RxSwift'
+  pod 'NVActivityIndicatorView'
 end

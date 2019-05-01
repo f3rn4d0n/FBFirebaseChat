@@ -668,8 +668,6 @@
             chat.timeStamp = Int(truncating: value?["timeStamp"] as? NSNumber ?? 0)
             chat.title = value?["title"] as? String ?? ""
             chat.owner = value?["owner"] as? String ?? ""
-            chat.sharedEnable = value?["sharedEnable"] as? Bool ?? false
-            chat.sharedEnable = true
             chat.key = snapshot.key
             completion(chat)
         }) { (error) in
@@ -703,8 +701,6 @@
             chat.timeStamp = Int(truncating: value?["timeStamp"] as? NSNumber ?? 0)
             chat.title = value?["title"] as? String ?? ""
             chat.owner = value?["owner"] as? String ?? ""
-            chat.sharedEnable = value?["sharedEnable"] as? Bool ?? false
-            chat.sharedEnable = true
             chat.key = snapshot.key
             print(value!)
             completion(chat)

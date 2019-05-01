@@ -39,10 +39,11 @@ public extension UIColor {
         )
     }
     
+    
     /// Let create a random UIColor with custom alpha
     ///
     /// - Returns: Random UIColor
-    public static func random(alphaValue:CGFloat? = 1.0) -> UIColor {
+    static func random(alphaValue:CGFloat? = 1.0) -> UIColor {
         return UIColor(red:   .random(),
                        green: .random(),
                        blue:  .random(),
