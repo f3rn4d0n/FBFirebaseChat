@@ -20,10 +20,8 @@ protocol RecordViewDelegate: class {
 @IBDesignable class RecordView: UIView {
 
     enum RecordViewState {
-        
         case recording
         case none
-        
     }
     
     var state : RecordViewState = .none {
@@ -31,24 +29,19 @@ protocol RecordViewDelegate: class {
         didSet {
             if state != .recording{
                 UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                    
                     //self.slideToCancel.alpha = 1.0
                     //self.countDownLabel.alpha = 1.0
                     
                     self.invalidateIntrinsicContentSize()
                     self.setNeedsLayout()
                     self.layoutIfNeeded()
-                    
                 })
-                
             }else{
                // self.slideToCancel.alpha = 1.0
                // self.countDownLabel.alpha = 1.0
-                
                 self.invalidateIntrinsicContentSize()
                 self.setNeedsLayout()
                 self.layoutIfNeeded()
-                
             }
         }
     }

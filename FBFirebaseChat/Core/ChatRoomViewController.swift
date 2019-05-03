@@ -185,12 +185,18 @@ class ChatRoomViewController: UIViewController,NVActivityIndicatorViewable {
                 contactUI = UserSelected.sharedInstance.getUser().key
             }
             UsersWebServices().getUserByUID(contactUI, completion: { (contact) in
-                self.chatNameLbl.text = contact.name
-                self.contactChat = contact
-                
-                self.chatWeb.getChatroomPreviewFrom(chatID: self.chatID) { (chatroom) in
-                    self.currentChatroom = chatroom
-                    self.getListMessages()
+                switch (contact){
+                case .failure(let error):
+                    MessageObject.sharedInstance.showMessage(error.localizedDescription, title: "Error", okMessage: "Accept")
+                case .success(let success):
+                    print(success)
+                    self.chatNameLbl.text = success.name
+                    self.contactChat = success
+                    
+                    self.chatWeb.getChatroomPreviewFrom(chatID: self.chatID) { (chatroom) in
+                        self.currentChatroom = chatroom
+                        self.getListMessages()
+                    }
                 }
             })
         }else{
@@ -203,13 +209,26 @@ class ChatRoomViewController: UIViewController,NVActivityIndicatorViewable {
                         contactUI = self.currentChatroom.owner
                     }
                     UsersWebServices().getUserByUID(contactUI, completion: { (contact1) in
-                        UsersWebServices().getUserByUID(self.currentChatroom.owner, completion: { (contact2) in
-                            self.chatNameLbl.text = "\(contact1.name) y \(contact2.name)"
-                            self.chatWeb.getChatroomPreviewFrom(chatID: self.chatID) { (chatroom) in
-                                self.currentChatroom = chatroom
-                                self.getListMessages()
-                            }
-                        })
+                        switch (contact1){
+                        case .failure(let error):
+                            MessageObject.sharedInstance.showMessage(error.localizedDescription, title: "Error", okMessage: "Accept")
+                        case .success(let success):
+                            UsersWebServices().getUserByUID(self.currentChatroom.owner, completion: { (contact2) in
+                                switch (contact2){
+                                case .failure(let error):
+                                    MessageObject.sharedInstance.showMessage(error.localizedDescription, title: "Error", okMessage: "Accept")
+                                case .success(let success2):
+                                    self.chatNameLbl.text = "\(success.name) y \(success2.name)"
+                                    self.chatWeb.getChatroomPreviewFrom(chatID: self.chatID) { (chatroom) in
+                                        self.currentChatroom = chatroom
+                                        self.getListMessages()
+                                    }
+                                }
+                               
+                            })
+                        }
+                        
+                        
                     })
                 }else{
                     self.chatNameLbl.text = chatroom.title

@@ -230,12 +230,21 @@ extension ChatListViewController: UITableViewDelegate, UITableViewDataSource{
                     contactUI = UserSelected.sharedInstance.getUser().key
                 }
                 UsersWebServices().getUserByUID(contactUI, completion: { (contact) in
-                    //cell.nameLbl.text = "\(contact.name)"
-                    if contact.photoUrl != ""{
-                        let url = URL(string: (contact.photoUrl.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed))!)
-                        //cell.userImg.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "logo-Descargando"))
+                    switch (contact){
+                    case .failure(let error):
+                        MessageObject.sharedInstance.showMessage(error.localizedDescription, title: "Error", okMessage: "Accept")
+                    case .success(let success):
+                        print(success)
+                        //cell.nameLbl.text = "\(contact.name)"
+                        if success.photoUrl != ""{
+                            let url = URL(string: (success.photoUrl.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed))!)
+                            //cell.userImg.kf.setImage(with: url, placeholder: #imageLiteral(resourceName: "logo-Descargando"))
+                        }
+                        self.usersP2P.setValue(contact, forKey: chatroom.key)
                     }
-                    self.usersP2P.setValue(contact, forKey: chatroom.key)
+                    
+                    
+                    
                 })
             }
         }

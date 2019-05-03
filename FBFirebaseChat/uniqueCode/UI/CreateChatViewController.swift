@@ -30,6 +30,13 @@ class CreateChatViewController: GenericTableViewController<FBUserChatTableViewCe
         navigationItem.searchController = searchController
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let user = usersController.usersList[indexPath.row]
+//        usersController.contact(user: user)
+        let chatVC = MessagesListViewController()
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
+    
     
 }
 

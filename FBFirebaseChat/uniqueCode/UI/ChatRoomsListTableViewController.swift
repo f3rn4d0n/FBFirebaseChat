@@ -42,11 +42,18 @@ public class ChatRoomsListTableViewController: GenericTableViewController<FBChat
     @objc func handleMoreOptions() {
         
     }
+    
+    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let chatVC = MessagesListViewController()
+        chatVC.chatID = items[indexPath.row].key
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
 }
 
 extension ChatRoomsListTableViewController: ChatRoomDelegate{
     func chatroomsObtained(_ chatrooms: [Chatroom]?) {
-        
+        items = chatrooms!
+        self.tableView.reloadData()
     }
     
     func chatroomDeleted(_ chatroom: Chatroom) {

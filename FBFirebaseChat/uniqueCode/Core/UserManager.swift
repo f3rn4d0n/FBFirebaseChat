@@ -16,13 +16,14 @@ protocol UsersManagerDelegate{
 class UsersManager: NSObject {
     
     let usersWebS = UsersWebServices()
+    let chatroomWebS = ChatRoomServices()
     var usersList = Array<UserFirebase>()
     var usersWebBackup = Array<UserFirebase>()
     
     var delegate: UsersManagerDelegate?
     
     /// Download chat data by your user id and user type
-    @objc func requestUsers(){
+    func requestUsers(){
         usersList = Array<UserFirebase>()
         
         usersWebS.getUsers { (users) in
@@ -35,6 +36,12 @@ class UsersManager: NSObject {
                 self.usersWebBackup = success
                 self.delegate?.usersFetch(success)
             }
+        }
+    }
+    
+    func contact(user: UserFirebase){
+        chatroomWebS.createChatRoomBeetween(user: user.key, me: UserSelected.sharedInstance.getUser().key) { (chatroomKey) in
+            
         }
     }
 }

@@ -16,6 +16,11 @@
 		C82668CC224EE8EF00AFAC98 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C82668CA224EE8EF00AFAC98 /* GoogleService-Info.plist */; };
 		C82BC701227BB5020095E4A0 /* FBUserChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82BC700227BB5020095E4A0 /* FBUserChatTableViewCell.swift */; };
 		C82BC705227CDD810095E4A0 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82BC704227CDD810095E4A0 /* UserManager.swift */; };
+		C82BC709227CE3900095E4A0 /* FBMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82BC708227CE3900095E4A0 /* FBMessageTableViewCell.swift */; };
+		C82BC70B227CF3F90095E4A0 /* MessagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82BC70A227CF3F90095E4A0 /* MessagesListViewController.swift */; };
+		C82BC70D227CF41C0095E4A0 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82BC70C227CF41C0095E4A0 /* MessagesController.swift */; };
+		C82BC713227D03FD0095E4A0 /* ic_send_audio.png in Resources */ = {isa = PBXBuildFile; fileRef = C82BC712227D03FD0095E4A0 /* ic_send_audio.png */; };
+		C82BC715227D04080095E4A0 /* ic_send_white.png in Resources */ = {isa = PBXBuildFile; fileRef = C82BC714227D04080095E4A0 /* ic_send_white.png */; };
 		C8420054224E88BE00B8238F /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8420053224E88BE00B8238F /* TriangleView.swift */; };
 		C8420058224E9CB900B8238F /* ReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8420056224E9CB900B8238F /* ReplyTableViewCell.xib */; };
 		C8420059224E9CB900B8238F /* ReplyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8420057224E9CB900B8238F /* ReplyTableViewCell.swift */; };
@@ -101,6 +106,11 @@
 		C82668CA224EE8EF00AFAC98 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C82BC700227BB5020095E4A0 /* FBUserChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBUserChatTableViewCell.swift; sourceTree = "<group>"; };
 		C82BC704227CDD810095E4A0 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		C82BC708227CE3900095E4A0 /* FBMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBMessageTableViewCell.swift; sourceTree = "<group>"; };
+		C82BC70A227CF3F90095E4A0 /* MessagesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesListViewController.swift; sourceTree = "<group>"; };
+		C82BC70C227CF41C0095E4A0 /* MessagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesController.swift; sourceTree = "<group>"; };
+		C82BC712227D03FD0095E4A0 /* ic_send_audio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_send_audio.png; sourceTree = "<group>"; };
+		C82BC714227D04080095E4A0 /* ic_send_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_send_white.png; sourceTree = "<group>"; };
 		C8420053224E88BE00B8238F /* TriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		C8420056224E9CB900B8238F /* ReplyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReplyTableViewCell.xib; sourceTree = "<group>"; };
 		C8420057224E9CB900B8238F /* ReplyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyTableViewCell.swift; sourceTree = "<group>"; };
@@ -218,6 +228,7 @@
 			children = (
 				C857D21422628738002A8F5D /* ChatRoomsListTableViewController.swift */,
 				C85D06FD223ECE2900FD1DA8 /* CreateChatViewController.swift */,
+				C82BC70A227CF3F90095E4A0 /* MessagesListViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -227,6 +238,7 @@
 			children = (
 				C897F99A2271028700C9950A /* ChatRoomListController.swift */,
 				C82BC704227CDD810095E4A0 /* UserManager.swift */,
+				C82BC70C227CF41C0095E4A0 /* MessagesController.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -381,6 +393,8 @@
 		C897F997226F969100C9950A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				C82BC712227D03FD0095E4A0 /* ic_send_audio.png */,
+				C82BC714227D04080095E4A0 /* ic_send_white.png */,
 				C897F9982270D81E00C9950A /* ic_generic_person.png */,
 			);
 			path = Images;
@@ -391,6 +405,7 @@
 			children = (
 				C8C5128E22445AEF00840E2F /* FBChatTableViewCell.swift */,
 				C82BC700227BB5020095E4A0 /* FBUserChatTableViewCell.swift */,
+				C82BC708227CE3900095E4A0 /* FBMessageTableViewCell.swift */,
 			);
 			path = FBChatCell;
 			sourceTree = "<group>";
@@ -535,8 +550,10 @@
 			files = (
 				C85D06F7223ECCF000FD1DA8 /* ChatRoomViewController.xib in Resources */,
 				C84E421C224D5EE000932376 /* MessageTableViewCell.xib in Resources */,
+				C82BC715227D04080095E4A0 /* ic_send_white.png in Resources */,
 				C842005E224EA19B00B8238F /* ImageViewerViewController.xib in Resources */,
 				C813843C2252984000182D60 /* GoogleService-Info.plist in Resources */,
+				C82BC713227D03FD0095E4A0 /* ic_send_audio.png in Resources */,
 				C897F9992270D81F00C9950A /* ic_generic_person.png in Resources */,
 				C8420058224E9CB900B8238F /* ReplyTableViewCell.xib in Resources */,
 				C8D5605F2249824B00E46EDD /* RecordView.xib in Resources */,
@@ -635,10 +652,12 @@
 				C8C512972244602400840E2F /* Structs.swift in Sources */,
 				C8D560582249508500E46EDD /* UsersWebServices.swift in Sources */,
 				C84E421B224D5EE000932376 /* MessageTableViewCell.swift in Sources */,
+				C82BC70D227CF41C0095E4A0 /* MessagesController.swift in Sources */,
 				C8D5605E2249824B00E46EDD /* RecordView.swift in Sources */,
 				C857D21522628738002A8F5D /* ChatRoomsListTableViewController.swift in Sources */,
 				C897F99B2271028700C9950A /* ChatRoomListController.swift in Sources */,
 				C82BC705227CDD810095E4A0 /* UserManager.swift in Sources */,
+				C82BC709227CE3900095E4A0 /* FBMessageTableViewCell.swift in Sources */,
 				C8BC74702245B8DB00B3FA0D /* Downloads.swift in Sources */,
 				C85D0703223EF84C00FD1DA8 /* FBChatConfiguration.swift in Sources */,
 				C8420059224E9CB900B8238F /* ReplyTableViewCell.swift in Sources */,
@@ -650,6 +669,7 @@
 				C8D560612249956800E46EDD /* ChatColors.swift in Sources */,
 				C85D06F1223EC82E00FD1DA8 /* ChatRoomServices.swift in Sources */,
 				C8C5129022445AEF00840E2F /* FBChatTableViewCell.swift in Sources */,
+				C82BC70B227CF3F90095E4A0 /* MessagesListViewController.swift in Sources */,
 				C85D06F6223ECCF000FD1DA8 /* ChatRoomViewController.swift in Sources */,
 				C8C512982244602400840E2F /* UserSelected.swift in Sources */,
 				C8420054224E88BE00B8238F /* TriangleView.swift in Sources */,

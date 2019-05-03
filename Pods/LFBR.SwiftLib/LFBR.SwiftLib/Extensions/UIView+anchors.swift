@@ -95,10 +95,10 @@ public extension UIView {
     func anchorEqualTo(view referenceView: UIView, atXLayout xLayout:NSLayoutXAxisAnchor, space:CGFloat, padding: UIEdgeInsets = .zero){
         anchor(top: referenceView.topAnchor, leading: nil, bottom: referenceView.bottomAnchor, trailing: nil, padding: padding)
         if xLayout == referenceView.leadingAnchor{
-            trailingAnchor.constraint(equalTo: referenceView.leadingAnchor, constant: space).isActive = true
+            trailingAnchor.constraint(equalTo: referenceView.leadingAnchor, constant: -space).isActive = true
         }
         if xLayout == referenceView.trailingAnchor{
-            leadingAnchor.constraint(equalTo: referenceView.trailingAnchor, constant: -space).isActive = true
+            leadingAnchor.constraint(equalTo: referenceView.trailingAnchor, constant: space).isActive = true
         }
         widthAnchor.constraint(equalTo: referenceView.widthAnchor).isActive = true
     }
