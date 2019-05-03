@@ -22,7 +22,7 @@
             completion(Message())
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         ref.child("message").child(chatID).child(messageID).observe(.value, with: { (snapshot) in
             var message = Message()
             let value = snapshot.value as? NSDictionary
@@ -46,7 +46,7 @@
             completion(Message())
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         
         ref.child("message").child(chatID).queryLimited(toFirst: UInt(1)).observe(.childAdded, with: { (snapshot) in
             var message = Message()
@@ -75,7 +75,7 @@
             return
         }
         let listMessages = NSMutableArray()
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         
         ref.child("message").child(chatID).observe(.value, with: { (snapshot) in
             
@@ -111,7 +111,7 @@
             completion(Message())
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let queryRef = (startetAt != nil) ? ref
             .child("message")
             .child(chatID)
@@ -149,7 +149,7 @@
             completion(Message())
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let queryRef = ref.child("message")
             .child(chatID)
             .queryOrderedByKey()
@@ -182,7 +182,7 @@
             completion(0)
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         ref.child("message").child(chatID).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             completion(value?.count ?? 0)
@@ -199,7 +199,7 @@
             return
         }
         let listMessages = NSMutableArray()
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         ref.child("message").child(chatID).observe(.childAdded, with: { (snapshot) in
             var message = Message()
             let value = snapshot.value as? NSDictionary
@@ -222,7 +222,7 @@
     }
     
     func listenForMessageDeleted(chatID:String, completion: @escaping(String) -> Void){
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         ref.child("message").child(chatID).observe(.childChanged, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             let deleted = value?["deleted"] as? Bool ?? false
@@ -239,7 +239,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let messageId = ref.child("message").child(chatId).childByAutoId()
         if mensajeContestadoId != nil {
             let messageInfo = [
@@ -272,7 +272,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let messageId = ref.child("message").child(chatId).childByAutoId()
         let messageInfo = [
             "imageUrl": imageDir,
@@ -290,7 +290,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let messageId = ref.child("message").child(chatId).childByAutoId()
         let messageInfo = [
             "imageUrl": imageDir,
@@ -307,7 +307,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let messageId = ref.child("message").child(chatId).childByAutoId()
         if recordingTime != nil{
             let messageInfo = [
@@ -363,7 +363,7 @@
             completion(false)
             return
         }
-        ref = Database.database().reference().child("message").child(chatroomID)
+        ref = Database.database().reference().child("development").child("message").child(chatroomID)
         ref.removeValue { (error, _) in
             if error == nil{
                 completion(true)
@@ -386,10 +386,10 @@
             return
         }
         
-        let chatRef = Database.database().reference().child("chatroom_members").child("\(user)\(me)")
+        let chatRef = Database.database().reference().child("development").child("chatroom_members").child("\(user)\(me)")
         chatRef.observeSingleEvent(of: .value, with: {(snapshotMeuser:DataSnapshot) in
             if !snapshotMeuser.exists(){
-                let userme = Database.database().reference().child("chatroom_members").child("\(me)\(user)")
+                let userme = Database.database().reference().child("development").child("chatroom_members").child("\(me)\(user)")
                 userme.observe(.value) { (snapshotUserme:DataSnapshot) in
                     self.createChatroomP2P(user: user, me: me, nameNode: "\(me)\(user)")
                     completion("\(me)\(user)")
@@ -404,7 +404,7 @@
     
     func createChatroomP2P(user: String, me:String, nameNode:String){
         var ref: DatabaseReference!
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let chatRoomId = ref.child("chatroom_members").child(nameNode)
         let newChatRoom = [
             user: true,
@@ -424,10 +424,10 @@
             completion("")
             return
         }
-        let chatRef = Database.database().reference().child("chatroom_members").child("\(contact)\(me)")
+        let chatRef = Database.database().reference().child("development").child("chatroom_members").child("\(contact)\(me)")
         chatRef.observe(.value) { (snapshotMeuser:DataSnapshot) in
             if !snapshotMeuser.exists(){
-                let userme = Database.database().reference().child("chatroom_members").child("\(me)\(contact)")
+                let userme = Database.database().reference().child("development").child("chatroom_members").child("\(me)\(contact)")
                 userme.observe(.value) { (snapshotUserme:DataSnapshot) in
                     if !snapshotUserme.exists(){
                         completion("")
@@ -446,7 +446,7 @@
             showInternetError()
             return ""
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let chatRoomId = ref.child("chatroom_members").childByAutoId()
         let newChatRoom = [
             userId: true
@@ -462,7 +462,7 @@
             return false
         }
         
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let chatRoomId = ref.child("chatroom_members").child(chatID)
         let newChatRoom = [
             userID: true
@@ -476,7 +476,7 @@
             showInternetError()
             return false
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let chatRoomId = ref.child("chatroom_members").child(chatID).child(userID)
         chatRoomId.removeValue { (error, newRef) in
             if error != nil {
@@ -496,7 +496,7 @@
             return
         }
         var listChats = NSMutableArray() as! [ChatroomMember]
-        ref = Database.database().reference().child("chatroom_members")
+        ref = Database.database().reference().child("development").child("chatroom_members")
         let refQuery = ref.queryOrdered(byChild: userId).queryEqual(toValue: true)
         refQuery.observeSingleEvent(of: .value, with: {(snapshot:DataSnapshot) in
             let refQuery2 = self.ref.queryOrdered(byChild: userId).queryEqual(toValue: false)
@@ -544,7 +544,7 @@
             return
         }
         let listChats = NSMutableArray()
-        ref = Database.database().reference().child("chatroom_members")
+        ref = Database.database().reference().child("development").child("chatroom_members")
         ref.observeSingleEvent(of: .value, with: {(snapshot:DataSnapshot) in
             for item in snapshot.children {
                 let child = item as! DataSnapshot
@@ -572,7 +572,7 @@
             completion(NSArray())
             return
         }
-        ref = Database.database().reference().child("chatroom_members").child(chatroomID)
+        ref = Database.database().reference().child("development").child("chatroom_members").child(chatroomID)
         ref.observeSingleEvent(of: .value) { (snapshot:DataSnapshot) in
             let array:NSArray = snapshot.children.allObjects as NSArray
             let members = NSMutableArray()
@@ -590,7 +590,7 @@
             completion(false)
             return
         }
-        ref = Database.database().reference().child("chatroom_members").child(chatroomID)
+        ref = Database.database().reference().child("development").child("chatroom_members").child(chatroomID)
         ref.removeValue { (error, _) in
             if error == nil{
                 completion(true)
@@ -606,7 +606,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let chatRoom = ref.child("chatroom").child(chatroomID)
         let newPreview = [
             "photoLastMessage": "",
@@ -626,7 +626,7 @@
             return
         }
         
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let chatRoomId = ref.child("chatroom").child(chatID)
         let newChatRoom = [
             "statusCotizacion": quotationState,
@@ -643,7 +643,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let chatRoom = ref.child("chatroom").child(chatroomID)
         let newPreview = [
             "lastMessage": message,
@@ -659,7 +659,7 @@
             completion(Chatroom())
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         ref.child("chatroom").child(chatID).observeSingleEvent(of: .value, with: { (snapshot) in
             var chat = Chatroom()
             let value = snapshot.value as? NSDictionary
@@ -681,7 +681,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         ref.child("chatroom").child(chatID).observe(.childChanged, with: { (snapshot) in
             if snapshot.key == "statusCotizacion"{
                 completion(snapshot.value as? Int ?? 0)
@@ -692,7 +692,7 @@
     }
     
     func listenerForChatRoomUpdate(completion: @escaping(Chatroom) -> Void){
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         ref.child("chatroom").observe(.childChanged, with: { (snapshot) in
             var chat = Chatroom()
             let value = snapshot.value as? NSDictionary
@@ -708,7 +708,7 @@
     }
     
     func listenerForChatRoomDeleted(completion: @escaping(String) -> Void){
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         ref.child("chatroom").observe(.childRemoved, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             print(value!)
@@ -723,7 +723,7 @@
             completion(false)
             return
         }
-        ref = Database.database().reference().child("chatroom").child(chatroomID)
+        ref = Database.database().reference().child("development").child("chatroom").child(chatroomID)
         ref.removeValue { (error, _) in
             if error == nil{
                 completion(true)
@@ -740,7 +740,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference().child("chatrooms_seen").child(user!)
+        ref = Database.database().reference().child("development").child("chatrooms_seen").child(user!)
         let invitationInfo = [
             chatroomID:time!
             ] as [String : Any]
@@ -753,7 +753,7 @@
             completion(NSMutableDictionary())
             return
         }
-        ref = Database.database().reference().child("chatrooms_seen").child(userID!)
+        ref = Database.database().reference().child("development").child("chatrooms_seen").child(userID!)
         ref.observeSingleEvent(of: .value, with: {(snapshot:DataSnapshot) in
             let value = snapshot.value as? NSMutableDictionary ?? NSMutableDictionary()
             completion(value)
@@ -769,7 +769,7 @@
             showInternetError()
             return ""
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let chatroomFeatured = ref.child("chatroom_featured_message").child(inChat)
         let messageInfo = [
             messageID: messageID
@@ -784,7 +784,7 @@
             completion("")
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let chatroomFeatured = ref.child("chatroom_featured_message").child(chatID)
         chatroomFeatured.observe(.childAdded, with: { (snapshot) in
             completion(snapshot.key)
@@ -799,7 +799,7 @@
         }
         
         var ref: DatabaseReference!
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let quotationDB = ref.child("chatroom_featured_message").child(chatID).child(messageId)
         quotationDB.removeValue { (error, newRef) in
             if error != nil {
@@ -818,7 +818,7 @@
             completion(false)
             return
         }
-        ref = Database.database().reference().child("chatroom_featured_message").child(chatroomID)
+        ref = Database.database().reference().child("development").child("chatroom_featured_message").child(chatroomID)
         ref.removeValue { (error, _) in
             if error == nil{
                 completion(true)
@@ -834,7 +834,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let messageId = ref.child("invitations").child(userType).child(chatID)
         let messageInfo = [
             "chadId": chatID,
@@ -852,7 +852,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let messageId = ref.child("invitations").child(categoryName).child(subcategoryName).child(chatID)
         let messageInfo = [
             "chadId": chatID,
@@ -870,7 +870,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let messageId = ref.child("invitations").child(categoryName).child(chatID)
         let messageInfo = [
             "chadId": chatID,
@@ -890,7 +890,7 @@
             return
         }
         let listInvitations = NSMutableArray()
-        ref = Database.database().reference().child("invitations").child(userType)
+        ref = Database.database().reference().child("development").child("invitations").child(userType)
         ref.observeSingleEvent(of: .value, with: {(snapshot:DataSnapshot) in
             for item in snapshot.children {
                 let child = item as! DataSnapshot
@@ -926,7 +926,7 @@
             return
         }
         let listInvitations = NSMutableArray()
-        ref = Database.database().reference().child("invitations").child(category).child(subcategory)
+        ref = Database.database().reference().child("development").child("invitations").child(category).child(subcategory)
         ref.observeSingleEvent(of: .value, with: {(snapshot:DataSnapshot) in
             for item in snapshot.children {
                 let child = item as! DataSnapshot
@@ -953,7 +953,7 @@
             completion(false)
             return
         }
-        ref = Database.database().reference().child("chats_silenciados").child(chatroomID)
+        ref = Database.database().reference().child("development").child("chats_silenciados").child(chatroomID)
         ref.removeValue { (error, _) in
             if error == nil{
                 completion(true)
@@ -970,7 +970,7 @@
             completion(false)
             return
         }
-        ref = Database.database().reference().child("processed_invitations").child(UserSelected.sharedInstance.getUser().key)
+        ref = Database.database().reference().child("development").child("processed_invitations").child(UserSelected.sharedInstance.getUser().key)
         let invitationInfo = [
             invitationID:status
             ] as [String : Any]
@@ -985,7 +985,7 @@
             return
         }
         let listInvitations = NSMutableArray()
-        ref = Database.database().reference().child("processed_invitations").child(userID)
+        ref = Database.database().reference().child("development").child("processed_invitations").child(userID)
         ref.observeSingleEvent(of: .value, with: {(snapshot:DataSnapshot) in
             for item in snapshot.children {
                 let child = item as! DataSnapshot
@@ -1005,7 +1005,7 @@
             showInternetError()
             return
         }
-        ref = Database.database().reference().child("invitations_seen").child(user!)
+        ref = Database.database().reference().child("development").child("invitations_seen").child(user!)
         let invitationInfo = [
             invitationID:time!
             ] as [String : Any]
@@ -1018,7 +1018,7 @@
             completion(NSMutableDictionary())
             return
         }
-        ref = Database.database().reference().child("invitations_seen").child(userID!)
+        ref = Database.database().reference().child("development").child("invitations_seen").child(userID!)
         ref.observeSingleEvent(of: .value, with: {(snapshot:DataSnapshot) in
             let value = snapshot.value as? NSMutableDictionary ?? NSMutableDictionary()
             completion(value)
@@ -1082,7 +1082,7 @@ func downloadImageFrom(chatID:String, name:String, completion:@escaping ((UIImag
             completion("")
             return
         }
-        ref = Database.database().reference().child("chatroom_code").childByAutoId()
+        ref = Database.database().reference().child("development").child("chatroom_code").childByAutoId()
         let invitationInfo = [
             "chatId":chatId,
             "timeStamp": Date().getTimeStamp()
@@ -1097,7 +1097,7 @@ func downloadImageFrom(chatID:String, name:String, completion:@escaping ((UIImag
             completion("")
             return
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         ref.child("chatroom_code").child(code).observeSingleEvent(of: .value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             let chatroomId = value?["chatId"] as? String ?? ""
@@ -1115,7 +1115,7 @@ func downloadImageFrom(chatID:String, name:String, completion:@escaping ((UIImag
             return
         }
         
-        ref = Database.database().reference().child("chatroom_code")
+        ref = Database.database().reference().child("development").child("chatroom_code")
         let refQuery = ref.queryOrdered(byChild: "chatId").queryEqual(toValue: chatroom)
         refQuery.observeSingleEvent(of: .value, with: {(snapshot:DataSnapshot) in
             var code = ""
@@ -1127,7 +1127,7 @@ func downloadImageFrom(chatID:String, name:String, completion:@escaping ((UIImag
             }
             if code == ""{
                 let ref2: DatabaseReference!
-                ref2 = Database.database().reference().child("chatroom_code").childByAutoId()
+                ref2 = Database.database().reference().child("development").child("chatroom_code").childByAutoId()
                 let invitationInfo = [
                     "chatId":chatroom,
                     "timeStamp": Date().getTimeStamp()
@@ -1151,7 +1151,7 @@ func downloadImageFrom(chatID:String, name:String, completion:@escaping ((UIImag
             return
         }
         let silentUser = NSMutableArray()
-        ref = Database.database().reference().child("chats_silenciados").child(chatId)
+        ref = Database.database().reference().child("development").child("chats_silenciados").child(chatId)
         ref.observeSingleEvent(of: .value, with: {(snapshot:DataSnapshot) in
             let value = snapshot.value as? NSDictionary
             if (value != nil){
@@ -1182,7 +1182,7 @@ func downloadImageFrom(chatID:String, name:String, completion:@escaping ((UIImag
             completion("")
             return
         }
-        ref = Database.database().reference().child("chats_silenciados").child(chatId)
+        ref = Database.database().reference().child("development").child("chats_silenciados").child(chatId)
         let invitationInfo = [
             user!:user!
             ] as [String : Any]
@@ -1195,7 +1195,7 @@ func downloadImageFrom(chatID:String, name:String, completion:@escaping ((UIImag
             showInternetError()
             return false
         }
-        ref = Database.database().reference()
+        ref = Database.database().reference().child("development")
         let chatRoomId = ref.child("chats_silenciados").child(chatID).child(userID!)
         chatRoomId.removeValue { (error, newRef) in
             if error != nil {
@@ -1214,7 +1214,7 @@ func downloadImageFrom(chatID:String, name:String, completion:@escaping ((UIImag
             completion(false)
             return
         }
-        ref = Database.database().reference().child("chats_silenciados").child(chatroomID)
+        ref = Database.database().reference().child("development").child("chats_silenciados").child(chatroomID)
         ref.removeValue { (error, _) in
             if error == nil{
                 completion(true)

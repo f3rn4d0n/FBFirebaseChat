@@ -11,19 +11,17 @@ import LFBR_SwiftLib
 
 public class ChatRoomsListTableViewController: GenericTableViewController<FBChatTableViewCell, Chatroom> {
 
-    var chatRooms: [Chatroom] = []
     var chatController = ChatRoomListController()
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        items = chatrooms
         tableView.rowHeight = 90
         setupNavigationBar()
         chatController.delegate = self
         chatController.requestChatrooms()
     }
     
-    override public func viewDidDisappear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         chatController.checkChatroomsSeen()
     }
     
@@ -58,6 +56,7 @@ extension ChatRoomsListTableViewController: ChatRoomDelegate{
     func chatroomUpdated(_ chatroom: Chatroom) {
         self.tableView.reloadData()
     }
+    
     func chatroomsUpdated(_ chatrooms: [Chatroom]) {
         items = chatrooms
         self.tableView.reloadData()

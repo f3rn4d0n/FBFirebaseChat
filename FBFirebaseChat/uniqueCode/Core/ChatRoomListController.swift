@@ -68,6 +68,7 @@ class ChatRoomListController: NSObject {
     /// Check list of all chatrooms viewed
     func checkChatroomsSeen(){
         chatWeb.getListChatroomsSeen { (chatroomSeen) in
+            if self.chatroomsList.count == 0 { return }
             for i in (0 ... self.chatroomsList.count){
                 var chat = self.chatroomsList[i]
                 chat.dateSeen = chatroomSeen.value(forKey: chat.key) as? Int ?? 0

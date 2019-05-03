@@ -13,6 +13,7 @@ import FirebaseAuth
 import NVActivityIndicatorView
 import KWDrawerController
 import FirebaseDatabase
+import CodableFirebase
 
 class ViewController: UIViewController,NVActivityIndicatorViewable {
 
@@ -37,8 +38,21 @@ class ViewController: UIViewController,NVActivityIndicatorViewable {
                 MessageObject.sharedInstance.showMessage(error.localizedDescription, title: "Error", okMessage: "Accept")
             case .success(let success):
                 print(success)
-                self.openApp()
-                //self.updateVersion()
+                var version = 0
+                if var text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+                    text = text.replacingOccurrences(of: ".", with: "")
+                    version = Int(text) ?? 0
+                }
+                if success.iOS > version{
+                    self.updateVersion()
+                }else{
+                    let user = Auth.auth().currentUser;
+                    if (user != nil){
+                        self.sendToMainController()
+                    }else{
+                        self.sendToLogin()
+                    }
+                }
             }
         }
     }
@@ -56,21 +70,13 @@ class ViewController: UIViewController,NVActivityIndicatorViewable {
         MessageObject.sharedInstance.showMessage("To get a better experience, please download the newest version.", title: "Old version",  okAction: okAction)
     }
     
-    func openApp(){
-        let user = Auth.auth().currentUser;
-        if (user != nil){
-            self.sendToMainController()
-        }else{
-            sendToLogin()
-        }
-    }
-    
     func sendToLogin(){
         let loginView = LoginViewController()
         self.navigationController?.pushViewController(loginView, animated: true)
     }
     
     func sendToMainController(){
+        FBChatConfiguration().setCurrentUserKey(Auth.auth().currentUser!.uid)
         let drawerController = DrawerController()
         let drawerVC = DrawerViewController()
         let chatListVC = ChatRoomsListTableViewController()
@@ -89,15 +95,22 @@ class ViewController: UIViewController,NVActivityIndicatorViewable {
         }
     }
     
-    
-    fileprivate func checkAppVersion(completion:@escaping(Result<Int,Error>) -> Void){
+    fileprivate func checkAppVersion(completion:@escaping(Result<AppVersion,Error>) -> Void){
         Database.database().reference().child("app_configuration").child("app_version").observeSingleEvent(of: .value, with: { (snapshot) in
             guard let value = snapshot.value else { return }
-            print(value)
-//            let item = try JSONDecoder().decode(Int.self, from: value)
-//            completion(.success(item))
+            do {
+                let appVersion = try FirebaseDecoder().decode(AppVersion.self, from: value)
+                completion(.success(appVersion))
+            }catch let error{
+                completion(.failure(error))
+            }
         }) { (error) in
             completion(.failure(error))
         }
+    }
+    
+    fileprivate struct AppVersion: Codable{
+        var Android = 0
+        var iOS = 0
     }
 }

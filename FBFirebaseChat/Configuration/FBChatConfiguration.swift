@@ -20,11 +20,15 @@ public class FBChatConfiguration: NSObject {
     
     var animationLoadSelected: NVActivityIndicatorType = .ballRotate
     
+    public func setCurrentUserKey(_ userKey:String){
+        FirebaseApp.configure()
+        UserSelected.sharedInstance.setUserKey(userKey)
+    }
     
     public func startConfiguration(){
-        
         var options:FirebaseOptions!
         options = FirebaseOptions.init(contentsOfFile: Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist")!)
         FirebaseApp.configure(options: options)
+        FirebaseApp.configure()
     }
 }

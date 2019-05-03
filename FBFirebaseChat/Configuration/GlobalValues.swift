@@ -10,10 +10,6 @@ import UIKit
 
 var ChatsroomsReload = "ChatroomReload"
 
-var androidPackageVersion = 0
-var iOSPackageVersion = 0
-
-
 final class GlobalValues: NSObject {
     static let sharedInstance = GlobalValues()
     var chatToContactID = ""

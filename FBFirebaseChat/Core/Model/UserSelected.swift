@@ -24,6 +24,10 @@ class UserSelected: NSObject {
         return self.user
     }
     
+    func setUserKey(_ userKey:String){
+        self.user.key = userKey
+    }
+    
     func updateLastLogin(_ date:Int){
         self.user.lastLogin = date
     }

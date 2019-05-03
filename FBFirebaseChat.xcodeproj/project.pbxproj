@@ -14,7 +14,8 @@
 		C81384492252D36900182D60 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81384482252D36900182D60 /* MainViewController.swift */; };
 		C813844B2252D37900182D60 /* DrawerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C813844A2252D37900182D60 /* DrawerViewController.swift */; };
 		C82668CC224EE8EF00AFAC98 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C82668CA224EE8EF00AFAC98 /* GoogleService-Info.plist */; };
-		C82668CE224EF04A00AFAC98 /* WebServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82668CD224EF04A00AFAC98 /* WebServices.swift */; };
+		C82BC701227BB5020095E4A0 /* FBUserChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82BC700227BB5020095E4A0 /* FBUserChatTableViewCell.swift */; };
+		C82BC705227CDD810095E4A0 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C82BC704227CDD810095E4A0 /* UserManager.swift */; };
 		C8420054224E88BE00B8238F /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8420053224E88BE00B8238F /* TriangleView.swift */; };
 		C8420058224E9CB900B8238F /* ReplyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8420056224E9CB900B8238F /* ReplyTableViewCell.xib */; };
 		C8420059224E9CB900B8238F /* ReplyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8420057224E9CB900B8238F /* ReplyTableViewCell.swift */; };
@@ -98,7 +99,8 @@
 		C81384482252D36900182D60 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C813844A2252D37900182D60 /* DrawerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerViewController.swift; sourceTree = "<group>"; };
 		C82668CA224EE8EF00AFAC98 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C82668CD224EF04A00AFAC98 /* WebServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebServices.swift; sourceTree = "<group>"; };
+		C82BC700227BB5020095E4A0 /* FBUserChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBUserChatTableViewCell.swift; sourceTree = "<group>"; };
+		C82BC704227CDD810095E4A0 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		C8420053224E88BE00B8238F /* TriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		C8420056224E9CB900B8238F /* ReplyTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReplyTableViewCell.xib; sourceTree = "<group>"; };
 		C8420057224E9CB900B8238F /* ReplyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyTableViewCell.swift; sourceTree = "<group>"; };
@@ -211,6 +213,24 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		C82BC6FE227B9BE90095E4A0 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				C857D21422628738002A8F5D /* ChatRoomsListTableViewController.swift */,
+				C85D06FD223ECE2900FD1DA8 /* CreateChatViewController.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		C82BC6FF227B9BF80095E4A0 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C897F99A2271028700C9950A /* ChatRoomListController.swift */,
+				C82BC704227CDD810095E4A0 /* UserManager.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		C8420055224E9CB900B8238F /* ReplyCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,8 +261,8 @@
 		C857D21322628718002A8F5D /* uniqueCode */ = {
 			isa = PBXGroup;
 			children = (
-				C857D21422628738002A8F5D /* ChatRoomsListTableViewController.swift */,
-				C897F99A2271028700C9950A /* ChatRoomListController.swift */,
+				C82BC6FF227B9BF80095E4A0 /* Core */,
+				C82BC6FE227B9BE90095E4A0 /* UI */,
 			);
 			path = uniqueCode;
 			sourceTree = "<group>";
@@ -318,7 +338,6 @@
 				C85D06F0223EC82E00FD1DA8 /* ChatRoomServices.swift */,
 				C8BC746F2245B8DB00B3FA0D /* Downloads.swift */,
 				C8D560572249508500E46EDD /* UsersWebServices.swift */,
-				C82668CD224EF04A00AFAC98 /* WebServices.swift */,
 			);
 			path = WS;
 			sourceTree = "<group>";
@@ -344,7 +363,6 @@
 				C8C512942244602400840E2F /* Model */,
 				C85D06F9223ECD0600FD1DA8 /* ChatListViewController.swift */,
 				C85D06F4223ECCF000FD1DA8 /* ChatRoomViewController.swift */,
-				C85D06FD223ECE2900FD1DA8 /* CreateChatViewController.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -372,6 +390,7 @@
 			isa = PBXGroup;
 			children = (
 				C8C5128E22445AEF00840E2F /* FBChatTableViewCell.swift */,
+				C82BC700227BB5020095E4A0 /* FBUserChatTableViewCell.swift */,
 			);
 			path = FBChatCell;
 			sourceTree = "<group>";
@@ -614,18 +633,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8C512972244602400840E2F /* Structs.swift in Sources */,
-				C82668CE224EF04A00AFAC98 /* WebServices.swift in Sources */,
 				C8D560582249508500E46EDD /* UsersWebServices.swift in Sources */,
 				C84E421B224D5EE000932376 /* MessageTableViewCell.swift in Sources */,
 				C8D5605E2249824B00E46EDD /* RecordView.swift in Sources */,
 				C857D21522628738002A8F5D /* ChatRoomsListTableViewController.swift in Sources */,
 				C897F99B2271028700C9950A /* ChatRoomListController.swift in Sources */,
+				C82BC705227CDD810095E4A0 /* UserManager.swift in Sources */,
 				C8BC74702245B8DB00B3FA0D /* Downloads.swift in Sources */,
 				C85D0703223EF84C00FD1DA8 /* FBChatConfiguration.swift in Sources */,
 				C8420059224E9CB900B8238F /* ReplyTableViewCell.swift in Sources */,
 				C8D560652249A65200E46EDD /* WebImageServices.swift in Sources */,
 				C8C5129A2244626F00840E2F /* Enums.swift in Sources */,
 				C85D06FF223ECE2900FD1DA8 /* CreateChatViewController.swift in Sources */,
+				C82BC701227BB5020095E4A0 /* FBUserChatTableViewCell.swift in Sources */,
 				C85D06FB223ECD0600FD1DA8 /* ChatListViewController.swift in Sources */,
 				C8D560612249956800E46EDD /* ChatColors.swift in Sources */,
 				C85D06F1223EC82E00FD1DA8 /* ChatRoomServices.swift in Sources */,

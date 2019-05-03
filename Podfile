@@ -6,6 +6,7 @@ target 'FBFirebaseChat' do
   pod 'NVActivityIndicatorView'
   pod 'LFBR.SwiftLib'
   pod 'Kingfisher'
+  pod 'CodableFirebase'
 end
 target 'FBFirebaseChatExample' do
   pod 'LFBR.SwiftLib'
@@ -14,4 +15,5 @@ target 'FBFirebaseChatExample' do
   pod 'KWDrawerController', '~> 4.2'
   pod 'KWDrawerController/RxSwift'
   pod 'NVActivityIndicatorView'
+  pod 'CodableFirebase'
 end

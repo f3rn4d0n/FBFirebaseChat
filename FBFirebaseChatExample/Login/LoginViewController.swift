@@ -116,6 +116,7 @@ class LoginViewController: UIViewController {
     }
     
     func sendToMainController(){
+        FBChatConfiguration().setCurrentUserKey(Auth.auth().currentUser!.uid)
         let drawerController = DrawerController()
         let drawerVC = DrawerViewController()
         let chatListVC = ChatRoomsListTableViewController()

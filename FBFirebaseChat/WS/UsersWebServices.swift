@@ -9,60 +9,47 @@
 import UIKit
 import FirebaseDatabase
 import LFBR_SwiftLib
+import CodableFirebase
+import Foundation
+import SystemConfiguration
 
 public class UsersWebServices: NSObject {
     
-    
-    //MARK: Search user
-    public func getUserByUID(_ userId:String, completion:@escaping (UserFirebase) -> Void){
-        if !ReachabilityManager.sharedInstance.isInternetAvaliable {
-            ChatRoomServices().showInternetError()
-            completion(UserFirebase())
-            return
-        }
-        if userId == ""{
-            completion(UserFirebase())
-            return
-        }
-        let ref = Database.database().reference()
-        ref.child("Users").child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
-            // Get user value
-            let value = snapshot.value as? NSDictionary
-            var user = UserFirebase()
-            user.name = value?["nombre"] as? String ?? ""
-            user.dir = value?["direccion"] as? String ?? ""
-            user.mail = value?["correo"] as? String ?? ""
-            user.phone = value?["telefono"] as? String ?? ""
-            user.photoUrl = value?["photoUrl"] as? String ?? ""
-            user.key = userId
-            user.typeProfile = Int(truncating: value?["tipo_de_usuario"] as? NSNumber ?? 0)
-            user.validarUsuario = Int(truncating: value?["validarUsuario"] as? NSNumber ?? 0)
-            user.pushNotificationKey = value?["pushNotificationKey"] as? String ?? ""
-            user.webPushNotificationKey = value?["webPushNotificationKey"] as? String ?? ""
-            completion(user)
+    public func getUserByUID(_ userId:String, completion:@escaping(Result<UserFirebase,Error>) -> Void){
+        Database.database().reference().child("development").child("Users").child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
+            completion(.success(self.usertFromFirebaseSnapshot(snapshot)))
         }) { (error) in
-            print(error.localizedDescription)
-            completion(UserFirebase())
+            completion(.failure(error))
         }
     }
     
-    //MARK: Close session for only one account
-    public func userSessionChangedFor(userID: String, completionSession:@escaping(Bool) ->Void, completionState:@escaping(NSNumber) ->Void){
-        if !ReachabilityManager.sharedInstance.isInternetAvaliable {
-            ChatRoomServices().showInternetError()
-            return
-        }
-        
-        var userRef: DatabaseReference! = Database.database().reference().child("Users").child(userID)
-        userRef.observe(.childChanged, with: { (snapshot) in
-            if snapshot.key == "active"{
-                completionSession(snapshot.value as? Bool ?? false)
+    func getUsers(completion:@escaping(Result<[UserFirebase],Error>) -> Void){
+        Database.database().reference().child("development").child("users").observeSingleEvent(of: .value, with: { (snapshot) in
+            var usersArr: [UserFirebase] = []
+            for item in snapshot.children{
+                let child = item as! DataSnapshot
+                let user = self.usertFromFirebaseSnapshot(child)
+                usersArr.append(user)
             }
-            if snapshot.key == "validarUsuario"{
-                completionState(snapshot.value as? NSNumber ?? 0)
-            }
+            completion(.success(usersArr))
         }) { (error) in
-            print(error.localizedDescription)
+            completion(.failure(error))
         }
+    }
+    
+    func usertFromFirebaseSnapshot(_ snapshot:DataSnapshot) -> UserFirebase{
+        let value = snapshot.value as? NSDictionary
+        var user = UserFirebase()
+        user.name = value?["nombre"] as? String ?? ""
+        user.dir = value?["direccion"] as? String ?? ""
+        user.mail = value?["correo"] as? String ?? ""
+        user.phone = value?["telefono"] as? String ?? ""
+        user.photoUrl = value?["photoUrl"] as? String ?? ""
+        user.key = snapshot.key
+        user.typeProfile = Int(truncating: value?["tipo_de_usuario"] as? NSNumber ?? 0)
+        user.validarUsuario = Int(truncating: value?["validarUsuario"] as? NSNumber ?? 0)
+        user.pushNotificationKey = value?["pushNotificationKey"] as? String ?? ""
+        user.webPushNotificationKey = value?["webPushNotificationKey"] as? String ?? ""
+        return user
     }
 }
